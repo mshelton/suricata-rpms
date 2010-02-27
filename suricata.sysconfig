@@ -1,0 +1,8 @@
+# What user account should we run under.
+USER="snortd"
+
+# What group account should we run under. 
+GROUP="snortd"
+
+# Add options to be passed to the daemon
+OPTIONS=" "
