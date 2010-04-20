@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 0.8.1
+Version: 0.8.2
 Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Internet
@@ -10,7 +10,6 @@ Source0: http://www.openinfosecfoundation.org/download/%{name}-%{version}.tar.gz
 Source1: suricata.init
 Source2: suricata.sysconfig
 Source3: suricata.logrotate
-Patch1: suricata-0.8.1-config.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
@@ -31,7 +30,6 @@ GPU cards.
 
 %prep
 %setup -q
-%patch1 -p1
 # This is to fix rpaths created by bad Makefile.in
 autoreconf -fv --install
 
@@ -98,6 +96,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Tue Apr 20 2010 Steve Grubb <sgrubb@redhat.com> 0.8.2-1
+- New upstream release
+
 * Sat Feb 27 2010 Steve Grubb <sgrubb@redhat.com> 0.8.1-1
 - Initial packaging
 
