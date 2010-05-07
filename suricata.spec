@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 0.8.2
+Version: 0.9.0
 Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Internet
@@ -13,7 +13,7 @@ Source3: suricata.logrotate
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
-BuildRequires: zlib-devel libpcap-devel pcre-devel
+BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
 Requires: chkconfig
@@ -35,7 +35,7 @@ autoreconf -fv --install
 
 %build
 # There is a problem with inlined functions
-CFLAGS+=" -fgnu89-inline"
+#CFLAGS+=" -fgnu89-inline"
 
 %configure
 make %{?_smp_mflags}
@@ -96,6 +96,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri May 07 2010 Steve Grubb <sgrubb@redhat.com> 0.9.0-1
+- New upstream release
+
 * Tue Apr 20 2010 Steve Grubb <sgrubb@redhat.com> 0.8.2-1
 - New upstream release
 
