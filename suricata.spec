@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 0.9.0
+Version: 1.0.0
 Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Internet
@@ -34,10 +34,7 @@ GPU cards.
 autoreconf -fv --install
 
 %build
-# There is a problem with inlined functions
-#CFLAGS+=" -fgnu89-inline"
-
-%configure
+%configure --enable-gccprotect 
 make %{?_smp_mflags}
 
 %install
@@ -96,6 +93,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Thu Jul 01 2010 Steve Grubb <sgrubb@redhat.com> 1.0.0-1
+- New upstream release
+
 * Fri May 07 2010 Steve Grubb <sgrubb@redhat.com> 0.9.0-1
 - New upstream release
 
