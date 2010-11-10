@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.0.0
+Version: 1.0.2
 Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Internet
@@ -34,7 +34,7 @@ GPU cards.
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect 
+%configure --enable-gccprotect --enable-nfqueue --enable-prelude  
 make %{?_smp_mflags}
 
 %install
@@ -93,6 +93,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Wed Nov 10 2010 Steve Grubb <sgrubb@redhat.com> 1.0.2-1
+- New upstream release
+
 * Thu Jul 01 2010 Steve Grubb <sgrubb@redhat.com> 1.0.0-1
 - New upstream release
 
