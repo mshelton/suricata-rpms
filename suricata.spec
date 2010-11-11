@@ -94,7 +94,7 @@ fi
 
 %changelog
 * Wed Nov 10 2010 Steve Grubb <sgrubb@redhat.com> 1.0.2-1
-- New upstream release
+- New upstream release (#651978)
 
 * Thu Jul 01 2010 Steve Grubb <sgrubb@redhat.com> 1.0.0-1
 - New upstream release
