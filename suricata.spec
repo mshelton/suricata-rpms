@@ -2,7 +2,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.0.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -34,7 +34,7 @@ GPU cards.
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --enable-nfqueue --enable-prelude  
+%configure --enable-gccprotect --enable-nfqueue --enable-prelude --disable-gccmarch-native
 make %{?_smp_mflags}
 
 %install
@@ -93,6 +93,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Thu Apr 28 2011 Dan Horák <dan[at]danny.cz> 1.0.3-2
+- don't override -march set by the buildsystem (fixes build on non-x86)
+
 * Sat Apr 23 2011 Steve Grubb <sgrubb@redhat.com> 1.0.3-1
 - New upstream release
 
