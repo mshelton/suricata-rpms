@@ -1,8 +1,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.0.3
-Release: 2%{?dist}
+Version: 1.0.4
+Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -93,6 +93,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Jun 24 2011 Steve Grubb <sgrubb@redhat.com> 1.0.4-1
+- New upstream release
+
 * Thu Apr 28 2011 Dan Horák <dan[at]danny.cz> 1.0.3-2
 - don't override -march set by the buildsystem (fixes build on non-x86)
 
