@@ -1,0 +1,27 @@
+diff -ur suricata-1.0.5.orig/libhtp/htp/Makefile.am suricata-1.0.5/libhtp/htp/Makefile.am
+--- suricata-1.0.5.orig/libhtp/htp/Makefile.am	2011-07-25 09:17:35.000000000 -0400
++++ suricata-1.0.5/libhtp/htp/Makefile.am	2011-07-25 10:54:59.000000000 -0400
+@@ -10,4 +10,4 @@
+ 
+ lib_LTLIBRARIES= libhtp.la
+ libhtp_la_SOURCES= $(h_sources) $(c_sources)
+-libhtp_la_LDFLAGS= -version-info $(GENERIC_LIBRARY_VERSION) -release $(GENERIC_RELEASE)
++libhtp_la_LDFLAGS= -version-info $(GENERIC_LIBRARY_VERSION) -release $(GENERIC_RELEASE) -Wl,-z,relro
+diff -ur suricata-1.0.5.orig/src/Makefile.am suricata-1.0.5/src/Makefile.am
+--- suricata-1.0.5.orig/src/Makefile.am	2011-07-25 09:17:35.000000000 -0400
++++ suricata-1.0.5/src/Makefile.am	2011-07-25 10:54:09.000000000 -0400
+@@ -223,12 +223,12 @@
+ 
+ 
+ # the library search path.
+-suricata_LDFLAGS = $(all_libraries)
++suricata_LDFLAGS = $(all_libraries) -pie
+ 
+ if BUILD_LIBHTP
+ suricata_LDADD = $(top_builddir)/libhtp/htp/libhtp.la
+ INCLUDES += -I$(top_srcdir)/libhtp
+ endif
+ 
+-#suricata_CFLAGS = -Wall -fno-strict-aliasing 
++suricata_CFLAGS = -Wall -fno-strict-aliasing -DPIE -fPIE 
+ 
