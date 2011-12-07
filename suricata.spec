@@ -1,16 +1,16 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.0.5
+Version: 1.1.1
 Release: 1%{?dist}
-License: GPLv2+
+License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
 Source0: http://www.openinfosecfoundation.org/download/%{name}-%{version}.tar.gz
 Source1: suricata.init
 Source2: suricata.sysconfig
 Source3: suricata.logrotate
-Patch1:  suricata-1.0.5-flags.patch
+Patch1:  suricata-1.1.1-flags.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
@@ -95,6 +95,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Wed Dec 07 2011 Steve Grubb <sgrubb@redhat.com> 1.1.1-1
+- New upstream release
+
 * Fri Jul 25 2011 Steve Grubb <sgrubb@redhat.com> 1.0.5-1
 - New upstream release
 

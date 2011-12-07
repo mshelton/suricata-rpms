@@ -1,0 +1,31 @@
+diff -urp suricata-1.1.1.orig/libhtp/htp/Makefile.am suricata-1.1.1/libhtp/htp/Makefile.am
+--- suricata-1.1.1.orig/libhtp/htp/Makefile.am	2011-12-07 10:52:59.000000000 -0500
++++ suricata-1.1.1/libhtp/htp/Makefile.am	2011-12-07 12:21:47.000000000 -0500
+@@ -10,5 +10,5 @@ AM_CFLAGS = -D_GNU_SOURCE -g -O2 -Wall -
+ 
+ lib_LTLIBRARIES= libhtp.la
+ libhtp_la_SOURCES= $(h_sources) $(c_sources)
+-libhtp_la_LDFLAGS= -version-info $(GENERIC_LIBRARY_VERSION) -release $(GENERIC_RELEASE)
++libhtp_la_LDFLAGS= -version-info $(GENERIC_LIBRARY_VERSION) -release $(GENERIC_RELEASE) -Wl,-z,relro
+ 
+diff -urp suricata-1.1.1.orig/src/Makefile.am suricata-1.1.1/src/Makefile.am
+--- suricata-1.1.1.orig/src/Makefile.am	2011-12-07 10:52:59.000000000 -0500
++++ suricata-1.1.1/src/Makefile.am	2011-12-07 12:23:18.000000000 -0500
+@@ -269,7 +269,7 @@ INCLUDES= $(all_includes)
+ 
+ 
+ # the library search path.
+-suricata_LDFLAGS = $(all_libraries)
++suricata_LDFLAGS = $(all_libraries) -pie
+ 
+ if BUILD_LIBHTP
+ suricata_LDADD = $(top_builddir)/libhtp/htp/libhtp.la
+@@ -326,7 +326,7 @@ CLEANFILES = $(PTXS) cuda-ptxdump.h
+ endif
+ 
+ 
+-#suricata_CFLAGS = -Wall -fno-strict-aliasing 
++suricata_CFLAGS = -Wall -fno-strict-aliasing -DPIE -fPIE 
+ 
+ if BUILD_UNITTESTS
+ check-am:
