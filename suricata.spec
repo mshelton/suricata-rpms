@@ -2,7 +2,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -95,6 +95,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Thu Dec 22 2011 Steve Grubb <sgrubb@redhat.com> 1.1.1-2
 - Enable AF_PACKET support
 
