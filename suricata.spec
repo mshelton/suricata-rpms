@@ -2,7 +2,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.2.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -96,6 +96,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Mar 30 2012 Jon Ciesla <limburgher@gmail.com> - 1.2.1-3
+- Rebuild for updated libnet.
+
 * Fri Feb 10 2012 Petr Pisar <ppisar@redhat.com> - 1.2.1-2
 - Rebuild against PCRE 8.30
 
