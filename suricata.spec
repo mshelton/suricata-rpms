@@ -1,8 +1,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.2.1
-Release: 3%{?dist}
+Version: 1.3
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -15,7 +15,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
-BuildRequires: file-devel
+BuildRequires: file-devel nspr-devel nss-softokn-devel
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
 Requires: chkconfig
@@ -37,7 +37,7 @@ GPU cards.
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3
 make %{?_smp_mflags}
 
 %install
@@ -96,6 +96,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Jul 06 2012 Steve Grubb <sgrubb@redhat.com> 1.3-1
+- New upstream release
+
 * Fri Mar 30 2012 Jon Ciesla <limburgher@gmail.com> - 1.2.1-3
 - Rebuild for updated libnet.
 
