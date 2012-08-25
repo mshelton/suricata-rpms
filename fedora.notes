@@ -1,0 +1,12 @@
+This package does not ship with rules. For it to do its job, it must have
+rules. Rules can be used from a couple places. It knows how to use
+snort rules if you have those. But if you don't another place to get
+rules is the emerging threats web site. To install, you might do 
+something like:
+
+mkdir /etc/suricata/rules/emerging
+wget http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
+tar -xz -C /etc/suricata/rules/emerging --strip-components=1 -f emerging.rules.targ.gz
+
+Then enable the rules in /etc/suricata/suricata.yaml
+
