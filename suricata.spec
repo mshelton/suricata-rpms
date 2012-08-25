@@ -23,6 +23,7 @@ BuildRequires: autoconf automake libtool
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
+ExclusiveArch: x86_64
 
 %description
 The Suricata Engine is an Open Source Next Generation Intrusion
