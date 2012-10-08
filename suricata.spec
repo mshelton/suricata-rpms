@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.3.1
+Version: 1.3.2
 Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
@@ -23,7 +23,6 @@ BuildRequires: autoconf automake libtool
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
-ExclusiveArch: x86_64
 
 %description
 The Suricata Engine is an Open Source Next Generation Intrusion
@@ -115,6 +114,9 @@ fi
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Mon Oct 08 2012 Steve Grubb <sgrubb@redhat.com> 1.3.2-1
+- New upstream release
+
 * Sat Aug 25 2012 Steve Grubb <sgrubb@redhat.com> 1.3.1-1
 - New upstream release
 - Switch startup to use systemd
