@@ -78,24 +78,13 @@ make check
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post suricata.service
 
 %preun
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable suricata.service > /dev/null 2>&1 || :
-    /bin/systemctl stop suricata.service > /dev/null 2>&1 || :
-fi
+%systemd_preun suricata.service
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart suricata.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart suricata.service
 
 %files
 %defattr(-,root,root,-)
