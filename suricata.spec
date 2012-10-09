@@ -2,7 +2,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -16,7 +16,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
-BuildRequires: file-devel nspr-devel nss-softokn-devel
+BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
 BuildRequires: systemd-units
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Tue Oct 09 2012 Steve Grubb <sgrubb@redhat.com> 1.3.2-2
+- Add nss-devel build require and systemd macros
+
 * Mon Oct 08 2012 Steve Grubb <sgrubb@redhat.com> 1.3.2-1
 - New upstream release
 
