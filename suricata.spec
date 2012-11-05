@@ -1,8 +1,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.3.2
-Release: 2%{?dist}
+Version: 1.3.3
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Mon Nov 05 2012 Steve Grubb <sgrubb@redhat.com> 1.3.3-1
+- New upstream release
+
 * Tue Oct 09 2012 Steve Grubb <sgrubb@redhat.com> 1.3.2-2
 - Add nss-devel build require and systemd macros
 
