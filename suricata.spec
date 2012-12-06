@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.3.4
+Version: 1.3.5
 Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
@@ -103,6 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Thu Dec 06 2012 Steve Grubb <sgrubb@redhat.com> 1.3.5-1
+- New upstream bugfix release
+
 * Tue Nov 27 2012 Steve Grubb <sgrubb@redhat.com> 1.3.4-1
 - New upstream release
 
