@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.3.5
+Version: 1.4
 Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
@@ -17,6 +17,7 @@ BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
+BuildRequires: jansson-devel
 BuildRequires: systemd-units
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
@@ -42,7 +43,7 @@ install -m 644 %{SOURCE4} doc/
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson
 make %{?_smp_mflags}
 
 %install
@@ -91,6 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING doc/INSTALL doc/Basic_Setup.txt
 %doc doc/Setting_up_IPSinline_for_Linux.txt doc/fedora.notes
 %{_sbindir}/suricata
+%{_sbindir}/suricatasc
 %{_libdir}/libhtp-*
 %attr(750,root,root) %dir %{_var}/log/suricata
 %config(noreplace) %{_sysconfdir}/suricata/suricata.yaml
@@ -103,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Thu Dec 20 2012 Steve Grubb <sgrubb@redhat.com> 1.4-1
+- New upstream feature enhancement release
+
 * Thu Dec 06 2012 Steve Grubb <sgrubb@redhat.com> 1.3.5-1
 - New upstream bugfix release
 
