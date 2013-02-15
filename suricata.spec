@@ -2,7 +2,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Thu Dec 20 2012 Steve Grubb <sgrubb@redhat.com> 1.4-1
 - New upstream feature enhancement release
 
