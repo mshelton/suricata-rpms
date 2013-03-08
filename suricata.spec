@@ -1,8 +1,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.4
-Release: 2%{?dist}
+Version: 1.4.1
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -12,12 +12,13 @@ Source2: suricata.sysconfig
 Source3: suricata.logrotate
 Source4: fedora.notes
 Patch1:  suricata-1.1.1-flags.patch
+Patch2: suricata-1.4.1-stack-protector-all.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
-BuildRequires: jansson-devel
+BuildRequires: jansson-devel GeoIP-devel
 BuildRequires: systemd-units
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
@@ -32,18 +33,18 @@ just replace or emulate the existing tools in the industry, but
 will bring new ideas and technologies to the field. This new Engine
 supports Multi-threading, Automatic Protocol Detection (IP, TCP,
 UDP, ICMP, HTTP, TLS, FTP and SMB! ), Gzip Decompression, Fast IP
-Matching and coming soon hardware acceleration on CUDA and OpenCL
-GPU cards.
+Matching, and GeoIP identification.
 
 %prep
 %setup -q
 install -m 644 %{SOURCE4} doc/
 %patch1 -p1
+%patch2 -p1
 # This is to fix rpaths created by bad Makefile.in
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip
 make %{?_smp_mflags}
 
 %install
@@ -78,13 +79,15 @@ make check
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post 
+/sbin/ldconfig
 %systemd_post suricata.service
 
 %preun
 %systemd_preun suricata.service
 
 %postun
+/sbin/ldconfig
 %systemd_postun_with_restart suricata.service
 
 %files
@@ -92,8 +95,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING doc/INSTALL doc/Basic_Setup.txt
 %doc doc/Setting_up_IPSinline_for_Linux.txt doc/fedora.notes
 %{_sbindir}/suricata
-%{_sbindir}/suricatasc
+%{_bindir}/suricatasc
 %{_libdir}/libhtp-*
+%{python_sitelib}/suricatasc*.egg-info
+%{python_sitelib}/suricatasc/*
 %attr(750,root,root) %dir %{_var}/log/suricata
 %config(noreplace) %{_sysconfdir}/suricata/suricata.yaml
 %config(noreplace) %{_sysconfdir}/suricata/classification.config
@@ -105,6 +110,11 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Mar 08 2013 Steve Grubb <sgrubb@redhat.com> 1.4.1-1
+- New upstream bugfix release
+- Enable libgeoip support
+- Switch to stack-protector-all
+
 * Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
