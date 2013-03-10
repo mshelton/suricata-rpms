@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
-* Fri Mar 08 2013 Steve Grubb <sgrubb@redhat.com> 1.4.1-1
+* Sun Mar 10 2013 Steve Grubb <sgrubb@redhat.com> 1.4.1-1
 - New upstream bugfix release
 - Enable libgeoip support
 - Switch to stack-protector-all
