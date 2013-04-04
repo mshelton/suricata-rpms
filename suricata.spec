@@ -18,7 +18,7 @@ BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
-BuildRequires: jansson-devel GeoIP-devel
+BuildRequires: jansson-devel GeoIP-devel python-devel
 BuildRequires: systemd-units
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
