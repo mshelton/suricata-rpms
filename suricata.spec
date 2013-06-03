@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.4.1
+Version: 1.4.2
 Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Mon Jun 03 2013 Steve Grubb <sgrubb@redhat.com> 1.4.2-1
+- New upstream bug fix release
+
 * Sun Mar 10 2013 Steve Grubb <sgrubb@redhat.com> 1.4.1-1
 - New upstream bugfix release
 - Enable libgeoip support
