@@ -6,7 +6,7 @@ something like:
 
 mkdir /etc/suricata/rules/emerging
 wget http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
-tar -xz -C /etc/suricata/rules/emerging --strip-components=1 -f emerging.rules.targ.gz
+tar -xz -C /etc/suricata/rules/emerging --strip-components=1 -f emerging.rules.tar.gz
 
 Then enable the rules in /etc/suricata/suricata.yaml
 

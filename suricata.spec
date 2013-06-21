@@ -2,7 +2,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.4.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -14,12 +14,12 @@ Source4: fedora.notes
 Patch1:  suricata-1.1.1-flags.patch
 Patch2: suricata-1.4.1-stack-protector-strong.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: libyaml-devel libprelude-devel
+BuildRequires: libyaml-devel 
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
 BuildRequires: jansson-devel GeoIP-devel python-devel
-BuildRequires: systemd-units
+BuildRequires: systemd
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
 Requires(post): systemd-units
@@ -44,7 +44,7 @@ install -m 644 %{SOURCE4} doc/
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-prelude --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip
 make %{?_smp_mflags}
 
 %install
@@ -57,7 +57,7 @@ install -m 600 suricata.yaml $RPM_BUILD_ROOT%{_sysconfdir}/suricata
 install -m 600 classification.config $RPM_BUILD_ROOT%{_sysconfdir}/suricata
 install -m 600 reference.config $RPM_BUILD_ROOT%{_sysconfdir}/suricata
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
-install -m 0755 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/
+install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/suricata
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
@@ -106,10 +106,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(750,root,root) %{_sysconfdir}/suricata
 %dir %attr(750,root,root) %{_sysconfdir}/suricata/rules
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/sysconfig/suricata
-%attr(755,root,root) %{_unitdir}/suricata.service
+%attr(644,root,root) %{_unitdir}/suricata.service
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Jun 21 2013 Steve Grubb <sgrubb@redhat.com> 1.4.3-2
+- Drop prelude support
+
 * Fri Jun 21 2013 Steve Grubb <sgrubb@redhat.com> 1.4.3-1
 - New upstream bug fix release
 
