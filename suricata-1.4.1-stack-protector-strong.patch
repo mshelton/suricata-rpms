@@ -6,12 +6,12 @@ diff -ur suricata-1.4.1.orig/configure.ac suricata-1.4.1/configure.ac
      AS_IF([test "x$enable_gccprotect" = "xyes"], [
          #buffer overflow protection
 -        AC_MSG_CHECKING(for -fstack-protector)
-+        AC_MSG_CHECKING(for -fstack-protector-all)
++        AC_MSG_CHECKING(for -fstack-protector-strong)
          TMPCFLAGS="${CFLAGS}"
 -        CFLAGS="${CFLAGS} -fstack-protector"
 -        AC_TRY_LINK(,,SECCFLAGS="${SECCFLAGS} -fstack-protector"
-+        CFLAGS="${CFLAGS} -fstack-protector-all"
-+        AC_TRY_LINK(,,SECCFLAGS="${SECCFLAGS} -fstack-protector-all"
++        CFLAGS="${CFLAGS} -fstack-protector-strong"
++        AC_TRY_LINK(,,SECCFLAGS="${SECCFLAGS} -fstack-protector-strong"
          AC_MSG_RESULT(yes),
          AC_MSG_RESULT(no))
          CFLAGS="${TMPCFLAGS}"

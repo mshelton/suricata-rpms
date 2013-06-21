@@ -1,7 +1,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.4.2
+Version: 1.4.3
 Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
@@ -12,7 +12,7 @@ Source2: suricata.sysconfig
 Source3: suricata.logrotate
 Source4: fedora.notes
 Patch1:  suricata-1.1.1-flags.patch
-Patch2: suricata-1.4.1-stack-protector-all.patch
+Patch2: suricata-1.4.1-stack-protector-strong.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel libprelude-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 
 %changelog
+* Fri Jun 21 2013 Steve Grubb <sgrubb@redhat.com> 1.4.3-1
+- New upstream bug fix release
+
 * Mon Jun 03 2013 Steve Grubb <sgrubb@redhat.com> 1.4.2-1
 - New upstream bug fix release
 
