@@ -1,8 +1,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.4.3
-Release: 3%{?dist}
+Version: 1.4.6
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -11,6 +11,7 @@ Source1: suricata.service
 Source2: suricata.sysconfig
 Source3: suricata.logrotate
 Source4: fedora.notes
+Source5: suricata-tmpfiles.conf
 Patch1:  suricata-1.1.1-flags.patch
 Patch2: suricata-1.4.1-stack-protector-strong.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,7 +45,7 @@ install -m 644 %{SOURCE4} doc/
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet  --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip
 make %{?_smp_mflags}
 
 %install
@@ -72,6 +73,12 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libhtp.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/libhtp.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libhtp.so
 rm -rf $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+
+# Setup tmpdirs
+mkdir -p $RPM_BUILD_ROOT%{_tmpfilesdir}
+install -m 0644 %{SOURCE5} $RPM_BUILD_ROOT%{_tmpfilesdir}/%{name}.conf
+mkdir -p %{buildroot}/run
+install -d -m 0755 %{buildroot}/run/%{name}/
 
 %check
 make check
@@ -108,8 +115,13 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/sysconfig/suricata
 %attr(644,root,root) %{_unitdir}/suricata.service
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
+%dir /run/%{name}/
+%{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Fri Oct 04 2013 Steve Grubb <sgrubb@redhat.com> 1.4.6-1
+- New upstream bug fix release
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
@@ -173,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Dec 07 2011 Steve Grubb <sgrubb@redhat.com> 1.1.1-1
 - New upstream release
 
-* Fri Jul 25 2011 Steve Grubb <sgrubb@redhat.com> 1.0.5-1
+* Mon Jul 25 2011 Steve Grubb <sgrubb@redhat.com> 1.0.5-1
 - New upstream release
 
 * Fri Jun 24 2011 Steve Grubb <sgrubb@redhat.com> 1.0.4-1
