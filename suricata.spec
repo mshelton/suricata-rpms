@@ -1,8 +1,11 @@
+%ifarch %{ix86} x86_64 %{arm}
+%global has_luajit 1
+%endif
 
 Summary: Intrusion Detection System
 Name: suricata
 Version: 1.4.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -19,7 +22,10 @@ BuildRequires: libyaml-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
-BuildRequires: jansson-devel GeoIP-devel python-devel luajit-devel
+BuildRequires: jansson-devel GeoIP-devel python-devel
+%if 0%{?has_luajit}
+BuildRequires: luajit-devel
+%endif
 BuildRequires: systemd
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
@@ -45,7 +51,12 @@ install -m 644 %{SOURCE4} doc/
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip --enable-luajit
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip \
+%if 0%{?has_luajit}
+    --enable-luajit
+%else
+    %{nil}
+%endif
 make %{?_smp_mflags}
 
 %install
@@ -119,6 +130,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Tue Jan 21 2014 Dan Horák <dan[at]danny.cz> 1.4.7-3
+- luajit available only on selected arches
+
 * Sat Jan 11 2014 Steve Grubb <sgrubb@redhat.com> 1.4.7-2
 - Enable luajit support
 
