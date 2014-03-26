@@ -4,8 +4,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 1.4.7
-Release: 3%{?dist}
+Version: 2.0
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -15,13 +15,12 @@ Source2: suricata.sysconfig
 Source3: suricata.logrotate
 Source4: fedora.notes
 Source5: suricata-tmpfiles.conf
-Patch1:  suricata-1.1.1-flags.patch
-Patch2: suricata-1.4.1-stack-protector-strong.patch
+Patch1:  suricata-2.0-flags.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel 
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
-BuildRequires: file-devel nspr-devel nss-devel nss-softokn-devel
+BuildRequires: nspr-devel nss-devel nss-softokn-devel file-devel
 BuildRequires: jansson-devel GeoIP-devel python-devel
 %if 0%{?has_luajit}
 BuildRequires: luajit-devel
@@ -46,7 +45,6 @@ Matching, and GeoIP identification.
 %setup -q
 install -m 644 %{SOURCE4} doc/
 %patch1 -p1
-%patch2 -p1
 # This is to fix rpaths created by bad Makefile.in
 autoreconf -fv --install
 
@@ -130,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Wed Mar 26 2014 Steve Grubb <sgrubb@redhat.com> 2.0-1
+- Major new upstream release with new features
+
 * Tue Jan 21 2014 Dan Horák <dan[at]danny.cz> 1.4.7-3
 - luajit available only on selected arches
 
