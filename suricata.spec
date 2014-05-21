@@ -4,7 +4,7 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 2.0
+Version: 2.0.1
 Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
@@ -63,9 +63,9 @@ make DESTDIR="${RPM_BUILD_ROOT}" "bindir=%{_sbindir}" install
 
 # Setup etc directory
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/suricata/rules
+install -m 600 rules/*.rules $RPM_BUILD_ROOT%{_sysconfdir}/suricata/rules
+install -m 600 *.config $RPM_BUILD_ROOT%{_sysconfdir}/suricata
 install -m 600 suricata.yaml $RPM_BUILD_ROOT%{_sysconfdir}/suricata
-install -m 600 classification.config $RPM_BUILD_ROOT%{_sysconfdir}/suricata
-install -m 600 reference.config $RPM_BUILD_ROOT%{_sysconfdir}/suricata
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
@@ -115,19 +115,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libhtp-*
 %{python_sitelib}/suricatasc*.egg-info
 %{python_sitelib}/suricatasc/*
-%attr(750,root,root) %dir %{_var}/log/suricata
 %config(noreplace) %{_sysconfdir}/suricata/suricata.yaml
-%config(noreplace) %{_sysconfdir}/suricata/classification.config
-%config(noreplace) %{_sysconfdir}/suricata/reference.config
-%dir %attr(750,root,root) %{_sysconfdir}/suricata
-%dir %attr(750,root,root) %{_sysconfdir}/suricata/rules
+%config(noreplace) %{_sysconfdir}/suricata/*.config
+%config(noreplace) %{_sysconfdir}/suricata/rules/*.rules
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/sysconfig/suricata
 %attr(644,root,root) %{_unitdir}/suricata.service
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
+%attr(750,root,root) %dir %{_var}/log/suricata
+%attr(750,root,root) %dir %{_sysconfdir}/suricata
+%attr(750,root,root) %dir %{_sysconfdir}/suricata/rules
 %dir /run/%{name}/
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Wed May 21 2014 Steve Grubb <sgrubb@redhat.com> 2.0.1-1
+- New upstream bug fix release
+
 * Wed Mar 26 2014 Steve Grubb <sgrubb@redhat.com> 2.0-1
 - Major new upstream release with new features
 
