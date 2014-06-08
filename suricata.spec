@@ -5,7 +5,7 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 2.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -128,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Wed May 21 2014 Steve Grubb <sgrubb@redhat.com> 2.0.1-1
 - New upstream bug fix release
 
