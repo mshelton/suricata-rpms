@@ -4,8 +4,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 2.0.1
-Release: 2%{?dist}
+Version: 2.0.2
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://www.openinfosecfoundation.org
@@ -15,13 +15,16 @@ Source2: suricata.sysconfig
 Source3: suricata.logrotate
 Source4: fedora.notes
 Source5: suricata-tmpfiles.conf
+# Make suricata use PIE
 Patch1:  suricata-2.0-flags.patch
+# liblua is not named correctly
+Patch2: suricata-2.0.2-lua.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libyaml-devel 
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: nspr-devel nss-devel nss-softokn-devel file-devel
-BuildRequires: jansson-devel GeoIP-devel python-devel
+BuildRequires: jansson-devel GeoIP-devel python-devel lua-devel
 %if 0%{?has_luajit}
 BuildRequires: luajit-devel
 %endif
@@ -45,11 +48,12 @@ Matching, and GeoIP identification.
 %setup -q
 install -m 644 %{SOURCE4} doc/
 %patch1 -p1
+%patch2 -p1
 # This is to fix rpaths created by bad Makefile.in
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip \
+%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip --enable-lua \
 %if 0%{?has_luajit}
     --enable-luajit
 %else
@@ -128,6 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Wed Jun 25 2014 Steve Grubb <sgrubb@redhat.com> 2.0.2-1
+- New upstream bug fix release
+- Enable liblua support
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
