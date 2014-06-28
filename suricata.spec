@@ -5,10 +5,10 @@
 Summary: Intrusion Detection System
 Name: suricata
 Version: 2.0.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Applications/Internet
-URL: http://www.openinfosecfoundation.org
+URL: http://suricata-ids.org/
 Source0: http://www.openinfosecfoundation.org/download/%{name}-%{version}.tar.gz
 Source1: suricata.service
 Source2: suricata.sysconfig
@@ -24,16 +24,16 @@ BuildRequires: libyaml-devel
 BuildRequires: libnfnetlink-devel libnetfilter_queue-devel libnet-devel
 BuildRequires: zlib-devel libpcap-devel pcre-devel libcap-ng-devel
 BuildRequires: nspr-devel nss-devel nss-softokn-devel file-devel
-BuildRequires: jansson-devel GeoIP-devel python-devel lua-devel
+BuildRequires: jansson-devel GeoIP-devel python2-devel lua-devel
 %if 0%{?has_luajit}
 BuildRequires: luajit-devel
 %endif
 BuildRequires: systemd
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
-Requires(post): systemd-units
-Requires(preun): systemd-units
-Requires(postun): systemd-units
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 
 %description
 The Suricata Engine is an Open Source Next Generation Intrusion
@@ -53,7 +53,7 @@ install -m 644 %{SOURCE4} doc/
 autoreconf -fv --install
 
 %build
-%configure --enable-gccprotect --disable-gccmarch-native --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip --enable-lua \
+%configure --enable-gccprotect --disable-gccmarch-native --disable-coccinelle --enable-nfqueue --enable-af-packet --with-libnspr-includes=/usr/include/nspr4 --with-libnss-includes=/usr/include/nss3 --enable-jansson --enable-geoip --enable-lua \
 %if 0%{?has_luajit}
     --enable-luajit
 %else
@@ -62,34 +62,34 @@ autoreconf -fv --install
 make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR="${RPM_BUILD_ROOT}" "bindir=%{_sbindir}" install
+rm -rf %{buildroot}
+make DESTDIR="%{buildroot}" "bindir=%{_sbindir}" install
 
 # Setup etc directory
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/suricata/rules
-install -m 600 rules/*.rules $RPM_BUILD_ROOT%{_sysconfdir}/suricata/rules
-install -m 600 *.config $RPM_BUILD_ROOT%{_sysconfdir}/suricata
-install -m 600 suricata.yaml $RPM_BUILD_ROOT%{_sysconfdir}/suricata
-mkdir -p $RPM_BUILD_ROOT%{_unitdir}
-install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}/
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
-install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/suricata
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/suricata
+mkdir -p %{buildroot}%{_sysconfdir}/suricata/rules
+install -m 600 rules/*.rules %{buildroot}%{_sysconfdir}/suricata/rules
+install -m 600 *.config %{buildroot}%{_sysconfdir}/suricata
+install -m 600 suricata.yaml %{buildroot}%{_sysconfdir}/suricata
+mkdir -p %{buildroot}%{_unitdir}
+install -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
+install -m 0755 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/suricata
+mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
+install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/suricata
 
 # Make logging directory
-mkdir -p $RPM_BUILD_ROOT/%{_var}/log/suricata
+mkdir -p %{buildroot}/%{_var}/log/suricata
 
 # Remove a couple things so they don't get picked up
-rm -rf $RPM_BUILD_ROOT%{_includedir}
-rm -f $RPM_BUILD_ROOT%{_libdir}/libhtp.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/libhtp.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/libhtp.so
-rm -rf $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+rm -rf %{buildroot}%{_includedir}
+rm -f %{buildroot}%{_libdir}/libhtp.la
+rm -f %{buildroot}%{_libdir}/libhtp.a
+rm -f %{buildroot}%{_libdir}/libhtp.so
+rm -rf %{buildroot}%{_libdir}/pkgconfig
 
 # Setup tmpdirs
-mkdir -p $RPM_BUILD_ROOT%{_tmpfilesdir}
-install -m 0644 %{SOURCE5} $RPM_BUILD_ROOT%{_tmpfilesdir}/%{name}.conf
+mkdir -p %{buildroot}%{_tmpfilesdir}
+install -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/%{name}/
 
@@ -97,7 +97,7 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 make check
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post 
 /sbin/ldconfig
@@ -112,13 +112,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING doc/INSTALL doc/Basic_Setup.txt
+%doc COPYING doc/Basic_Setup.txt
 %doc doc/Setting_up_IPSinline_for_Linux.txt doc/fedora.notes
 %{_sbindir}/suricata
 %{_bindir}/suricatasc
 %{_libdir}/libhtp-*
-%{python_sitelib}/suricatasc*.egg-info
-%{python_sitelib}/suricatasc/*
+%{python2_sitelib}/suricatasc*.egg-info
+%{python2_sitelib}/suricatasc/*
 %config(noreplace) %{_sysconfdir}/suricata/suricata.yaml
 %config(noreplace) %{_sysconfdir}/suricata/*.config
 %config(noreplace) %{_sysconfdir}/suricata/rules/*.rules
@@ -132,6 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Sat Jun 28 2014 Steve Grubb <sgrubb@redhat.com> 2.0.2-2
+- Specfile cleanups (#1113413)
+
 * Wed Jun 25 2014 Steve Grubb <sgrubb@redhat.com> 2.0.2-1
 - New upstream bug fix release
 - Enable liblua support
