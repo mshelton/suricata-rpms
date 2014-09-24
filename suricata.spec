@@ -4,8 +4,8 @@
 
 Summary: Intrusion Detection System
 Name: suricata
-Version: 2.0.3
-Release: 2%{?dist}
+Version: 2.0.4
+Release: 1%{?dist}
 License: GPLv2
 Group: Applications/Internet
 URL: http://suricata-ids.org/
@@ -132,6 +132,10 @@ rm -rf %{buildroot}
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Wed Sep 24 2014 Steve Grubb <sgrubb@redhat.com> 2.0.4-1
+- New upstream bug fix release
+- Fixes CVE-2014-6603 out-of-bounds access in SSH parser
+
 * Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
