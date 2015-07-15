@@ -111,6 +111,13 @@ make check
 %clean
 rm -rf %{buildroot}
 
+%pre
+# Don't do all this stuff if we are upgrading
+if [ $1 = 1 ] ; then
+	/usr/sbin/groupadd suricata 2> /dev/null || true
+	/usr/sbin/useradd -M -d %{_var}/log/suricata -s %{noShell} -c "Suricata" -g suricata suricata 2>/dev/null || true
+fi
+
 %post 
 /sbin/ldconfig
 if [ $1 = 1 ] ; then
@@ -118,7 +125,7 @@ if [ $1 = 1 ] ; then
 fi
 
 %preun
-f [ $1 = 0 ] ; then
+if [ $1 = 0 ] ; then
 	# We get errors about not running, but we don't care
 	%{_initrddir}/suricata stop 2>/dev/null 1>/dev/null
 	/sbin/chkconfig --del suricata
@@ -143,7 +150,7 @@ fi
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/sysconfig/suricata
 #%attr(644,root,root) %{_unitdir}/suricata.service
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
-%attr(750,root,root) %dir %{_var}/log/suricata
+%attr(750,suricata,suricata) %dir %{_var}/log/suricata
 %attr(750,root,root) %dir %{_sysconfdir}/suricata
 %attr(750,root,root) %dir %{_sysconfdir}/suricata/rules
 %dir /run/%{name}/
