@@ -11,6 +11,8 @@
 
 source /etc/rc.d/init.d/functions
 
+# Source the local configuration file
+. /etc/sysconfig/suricata
 
 ### Read configuration
 [ -r "$SYSCONFIG" ] && source "$SYSCONFIG"
@@ -22,7 +24,7 @@ desc="Suricata IDS"
 start() {
     echo -n $"Starting $desc ($prog): "
 
-    daemon /usr/bin/suricata -c /etc/suricata/suricata.yaml -i eth0 -D
+    daemon /usr/sbin/suricata -c /etc/suricata/suricata.yaml -i ${INTERFACE} --user ${USER} --group ${GROUP} ${OPTIONS} -D
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$prog
