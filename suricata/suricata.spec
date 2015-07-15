@@ -15,7 +15,7 @@ Source0: http://www.openinfosecfoundation.org/download/%{name}-%{version}.tar.gz
 Source1: suricata.service
 Source2: suricata.sysconfig
 Source3: suricata.logrotate
-Source4: fedora.notes
+Source4: centos.notes
 Source5: suricata-tmpfiles.conf
 # Make suricata use PIE
 Patch1:  suricata-2.0-flags.patch
@@ -30,12 +30,12 @@ BuildRequires: jansson-devel GeoIP-devel python2-devel lua-devel
 %if 0%{?has_luajit}
 BuildRequires: luajit-devel
 %endif
-BuildRequires: systemd
+#BuildRequires: systemd
 # Remove when rpath issues are fixed
 BuildRequires: autoconf automake libtool
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
+#Requires(post): systemd
+#Requires(preun): systemd
+#Requires(postun): systemd
 
 %description
 The Suricata Engine is an Open Source Next Generation Intrusion
