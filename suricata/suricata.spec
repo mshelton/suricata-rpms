@@ -4,6 +4,12 @@
 %endif
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?__python2: %global __python2 /usr/bin/python2}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+%endif
+
 Summary: Intrusion Detection System
 Name: suricata
 Version: 2.0.8
@@ -90,8 +96,8 @@ rm -f %{buildroot}%{_libdir}/libhtp.so
 rm -rf %{buildroot}%{_libdir}/pkgconfig
 
 # Setup tmpdirs
-mkdir -p %{buildroot}%{_tmpfilesdir}
-install -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/%{name}.conf
+#mkdir -p %{buildroot}%{_tmpfilesdir}
+#install -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/%{name}/
 
@@ -131,7 +137,7 @@ rm -rf %{buildroot}
 %attr(750,root,root) %dir %{_sysconfdir}/suricata
 %attr(750,root,root) %dir %{_sysconfdir}/suricata/rules
 %dir /run/%{name}/
-%{_tmpfilesdir}/%{name}.conf
+#%{_tmpfilesdir}/%{name}.conf
 
 %changelog
 * Wed May 06 2015 Steve Grubb <sgrubb@redhat.com> 2.0.8-1
