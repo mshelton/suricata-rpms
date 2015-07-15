@@ -4,5 +4,13 @@
 # --user <acct name>
 # --group <group name>
 
+# What interface should Suricata listen on?
+INTERFACE=eth0
+
+# What permissions should Suricata user run as?
+#  This user and group should have very few privileges.
+USER=suricata
+GROUP=suricata
+
 # Add options to be passed to the daemon
-OPTIONS="-i eth0 "
+OPTIONS=""
