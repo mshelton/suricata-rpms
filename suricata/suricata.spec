@@ -147,7 +147,7 @@ fi
 %attr(750,root,root) %dir %{_sysconfdir}/suricata
 %attr(750,root,root) %dir %{_sysconfdir}/suricata/rules
 %dir /run/%{name}/
-#%{_tmpfilesdir}/%{name}.conf
+%{_initrddir}/suricata
 
 %changelog
 * Wed May 06 2015 Steve Grubb <sgrubb@redhat.com> 2.0.8-1
