@@ -115,7 +115,7 @@ rm -rf %{buildroot}
 # Don't do all this stuff if we are upgrading
 if [ $1 = 1 ] ; then
 	/usr/sbin/groupadd suricata 2> /dev/null || true
-	/usr/sbin/useradd -M -d %{_var}/log/suricata -s %{noShell} -c "Suricata" -g suricata suricata 2>/dev/null || true
+	/usr/sbin/useradd -M -d %{_var}/log/suricata -s /sbin/nologin -c "Suricata" -g suricata suricata 2>/dev/null || true
 fi
 
 %post 
