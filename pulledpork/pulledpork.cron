@@ -1,0 +1,1 @@
+0 * * * * /opt/pulledpork/bin/pulledpork -c /opt/pulledpork/etc/pulledpork.conf -o /etc/suricata/rules/snort.rules
