@@ -18,7 +18,7 @@ License: GPLv2
 Group: Applications/Internet
 URL: http://suricata-ids.org/
 Source0: http://www.openinfosecfoundation.org/download/%{name}-%{version}.tar.gz
-Source1: suricata.service
+Source1: suricata.initd
 Source2: suricata.sysconfig
 Source3: suricata.logrotate
 Source4: centos.notes
@@ -101,6 +101,10 @@ rm -rf %{buildroot}%{_libdir}/pkgconfig
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/%{name}/
 
+# Setup the init.d file.
+mkdir -p %{buildroot}%{_initrddir}
+install -m 0755 ${SOURCE1} %{buildroot}%{_initrddir}/suricata
+
 %check
 make check
 
@@ -109,14 +113,14 @@ rm -rf %{buildroot}
 
 %post 
 /sbin/ldconfig
-%systemd_post suricata.service
+#%systemd_post suricata.service
 
 %preun
-%systemd_preun suricata.service
+#%systemd_preun suricata.service
 
 %postun
 /sbin/ldconfig
-%systemd_postun_with_restart suricata.service
+#%systemd_postun_with_restart suricata.service
 
 %files
 %defattr(-,root,root,-)
