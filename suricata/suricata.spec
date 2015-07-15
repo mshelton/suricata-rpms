@@ -72,8 +72,8 @@ mkdir -p %{buildroot}%{_sysconfdir}/suricata/rules
 install -m 600 rules/*.rules %{buildroot}%{_sysconfdir}/suricata/rules
 install -m 600 *.config %{buildroot}%{_sysconfdir}/suricata
 install -m 600 suricata.yaml %{buildroot}%{_sysconfdir}/suricata
-mkdir -p %{buildroot}%{_unitdir}
-install -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
+#mkdir -p %{buildroot}%{_unitdir}
+#install -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 install -m 0755 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/suricata
 mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
@@ -125,7 +125,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/suricata/*.config
 %config(noreplace) %{_sysconfdir}/suricata/rules/*.rules
 %config(noreplace) %attr(0600,root,root) %{_sysconfdir}/sysconfig/suricata
-%attr(644,root,root) %{_unitdir}/suricata.service
+#%attr(644,root,root) %{_unitdir}/suricata.service
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/logrotate.d/suricata
 %attr(750,root,root) %dir %{_var}/log/suricata
 %attr(750,root,root) %dir %{_sysconfdir}/suricata
