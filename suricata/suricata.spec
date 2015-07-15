@@ -103,7 +103,7 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 
 # Setup the init.d file.
 mkdir -p %{buildroot}%{_initrddir}
-install -m 0755 ${SOURCE1} %{buildroot}%{_initrddir}/suricata
+install -m 0755 %{SOURCE1} %{buildroot}%{_initrddir}/suricata
 
 %check
 make check
@@ -113,10 +113,16 @@ rm -rf %{buildroot}
 
 %post 
 /sbin/ldconfig
-#%systemd_post suricata.service
+if [ $1 = 1 ] ; then
+	/sbin/chkconfig --add suricata
+fi
 
 %preun
-#%systemd_preun suricata.service
+f [ $1 = 0 ] ; then
+	# We get errors about not running, but we don't care
+	%{_initrddir}/suricata stop 2>/dev/null 1>/dev/null
+	/sbin/chkconfig --del suricata
+fi
 
 %postun
 /sbin/ldconfig
@@ -125,7 +131,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc COPYING doc/Basic_Setup.txt
-%doc doc/Setting_up_IPSinline_for_Linux.txt doc/fedora.notes
+%doc doc/Setting_up_IPSinline_for_Linux.txt doc/centos.notes
 %{_sbindir}/suricata
 %{_bindir}/suricatasc
 %{_libdir}/libhtp-*
